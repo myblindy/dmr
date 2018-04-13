@@ -52,6 +52,7 @@
     <Compile Include="Models\RoomTemplate.cs" />
     <Compile Include="Models\TileTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Rooms\room_0001.txt" />

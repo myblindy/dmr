@@ -26,11 +26,11 @@ namespace dmr.Loaders
                 while ((line = streamreader.ReadLine()) != null)
                     def.Add(line);
 
-            var res = new RoomTemplate { Tiles = new TileTemplate[def.Max(w => w.Length), def.SkipWhile(w => w.Length == 0).Count()] };
-            def.SkipWhile(w => w.Length == 0).ForEach((l, rowidx) =>
-                l.ForEach((c, colidx) =>
+            var res = new RoomTemplate { Tiles = new TileTemplate[def.SkipWhile(w => w.Length == 0).Count(), def.Max(w => w.Length)] };
+            def.SkipWhile(w => w.Length == 0).ForEach((l, colidx) =>
+                l.ForEach((c, rowidx) =>
                     res.Tiles[colidx, rowidx] = c == '.' ? TileTemplate.EmptyTile : c == '+' ? TileTemplate.WallTile : c == 'd' ? TileTemplate.DoorTile : c == ' ' ? (TileTemplate)null :
-                        throw new InvalidOperationException()));
+                        c == 's' ? TileTemplate.StartTile : throw new InvalidOperationException()));
 
             return res;
         }
