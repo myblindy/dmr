@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using dmr.Loaders;
 using dmr.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -29,6 +31,11 @@ d.....+
             Assert.AreEqual(TileTemplate.EmptyTile, roomtemplate.Tiles[3, 3]);
             Assert.AreEqual(TileTemplate.DoorTile, roomtemplate.Tiles[3, 6]);
             Assert.ThrowsException<IndexOutOfRangeException>(() => roomtemplate.Tiles[0, 7]);
+
+            // test the doorways
+            Assert.IsTrue(roomtemplate.Doorways.Any(d => d.X == 2 && d.Y == 0 && d.Direction == DoorwayDirection.North));
+            Assert.IsTrue(roomtemplate.Doorways.Any(d => d.X == 0 && d.Y == 2 && d.Direction == DoorwayDirection.West));
+            Assert.IsTrue(roomtemplate.Doorways.Any(d => d.X == 6 && d.Y == 3 && d.Direction == DoorwayDirection.East));
         }
 
         [TestMethod]
@@ -58,6 +65,28 @@ ds.+
             Assert.AreEqual(TileTemplate.EmptyTile, map.Tiles[1, 1]);
             Assert.AreEqual(TileTemplate.EmptyTile, map.Tiles[1, 6]);
             Assert.AreEqual(TileTemplate.StartTile, map.Tiles[1, 5]);
+        }
+
+        [TestMethod]
+        public void MapGenerationTest()
+        {
+            var room1 = RoomLoader.Load(@"
++d++
+ds.+
+++++".ToMemoryStream());
+            var room2 = RoomLoader.Load(@"
+++++
++..d
+++++".ToMemoryStream());
+            var room3 = RoomLoader.Load(@"
+++++
++..+
++d++".ToMemoryStream());
+            var room4 = RoomLoader.Load(@"
++++++
++...d
++++d+".ToMemoryStream());
+            var map = new Map(30, 30, new List<RoomTemplate> { room1, room2, room3, room4 }, new Random());
         }
     }
 }

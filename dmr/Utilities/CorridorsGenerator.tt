@@ -1,0 +1,24 @@
+﻿<#@ template hostspecific="True"#>
+<#@include file="TemplateFileManagerV2.1.ttinclude"#>
+<# var manager = TemplateFileManager.Create(this); #>
+
+// lines of length 2-7
+<# for(int len=2;len<7;++len)
+{
+	// horizontal
+	manager.StartNewFile(@"room_corridor_h_"+len+".txt","dmr","Content\\Rooms", new FileProperties{CopyToOutputDirectoryIfNewer=true});
+	WriteLine(new string('+', len+2));
+	WriteLine("d"+new string('.', len)+"d");
+	WriteLine(new string('+', len+2));
+	manager.EndBlock();
+
+	// vertical
+	manager.StartNewFile(@"room_corridor_v_"+len+".txt","dmr","Content\\Rooms", new FileProperties{CopyToOutputDirectoryIfNewer=true});
+	WriteLine("+d+");
+	for(int idx=0;idx<len;++idx)
+		WriteLine("+.+");
+	WriteLine("+d+");
+	manager.EndBlock();
+}#>
+
+<# manager.Process(true); #>

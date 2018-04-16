@@ -18,7 +18,7 @@ namespace dmr.Models
         public static TileTemplate EmptyTile = new TileTemplate { Passable = true };
         public static TileTemplate DoorTile = new TileTemplate { Door = true };
         public static TileTemplate WallTile = new TileTemplate { };
-        public static TileTemplate StartTile = new TileTemplate { Start = true };
+        public static TileTemplate StartTile = new TileTemplate { Start = true, Passable = true };
 
         public override int GetHashCode() => Flags.GetHashCode();
 
