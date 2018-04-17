@@ -10,6 +10,9 @@
 	WriteLine(new string('+', len+2));
 	WriteLine("d"+new string('.', len)+"d");
 	WriteLine(new string('+', len+2));
+	WriteLine("");
+	WriteLine("===");
+	WriteLine("choose_weight = 0.1");
 	manager.EndBlock();
 
 	// vertical
@@ -18,6 +21,9 @@
 	for(int idx=0;idx<len;++idx)
 		WriteLine("+.+");
 	WriteLine("+d+");
+	WriteLine("");
+	WriteLine("===");
+	WriteLine("choose_weight = 0.1");
 	manager.EndBlock();
 }#>
 

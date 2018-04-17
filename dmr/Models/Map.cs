@@ -61,8 +61,8 @@ namespace dmr.Models
                     // and place it at the calculated position
                     if (place(chosenroom,
                         doorway.X + xoffset +
-                            (doorway.Direction == DoorwayDirection.East ? -chosendoor.X - 1
-                            : doorway.Direction == DoorwayDirection.West ? chosendoor.X + 1
+                            (doorway.Direction == DoorwayDirection.West ? -chosendoor.X - 1
+                            : doorway.Direction == DoorwayDirection.East ? chosendoor.X + 1
                             : -chosendoor.X),
                         doorway.Y + yoffset +
                             (doorway.Direction == DoorwayDirection.North ? -chosendoor.Y - 1

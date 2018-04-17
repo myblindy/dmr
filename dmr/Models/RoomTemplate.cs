@@ -23,6 +23,8 @@ namespace dmr.Models
     public class RoomTemplate
     {
         public string Name;
+        public float ChooseWeight = 1;
+
         public TileTemplate[,] Tiles;
         public List<Doorway> Doorways = new List<Doorway>();
 
@@ -36,9 +38,9 @@ namespace dmr.Models
                     {
                         // direction?
                         if (col > 0 && Tiles[row, col - 1]?.Passable == true)
-                            Doorways.Add(new Doorway(DoorwayDirection.West, col, row));
-                        else if (col < colsmax - 1 && Tiles[row, col + 1]?.Passable == true)
                             Doorways.Add(new Doorway(DoorwayDirection.East, col, row));
+                        else if (col < colsmax - 1 && Tiles[row, col + 1]?.Passable == true)
+                            Doorways.Add(new Doorway(DoorwayDirection.West, col, row));
                         else if (row > 0 && Tiles[row - 1, col]?.Passable == true)
                             Doorways.Add(new Doorway(DoorwayDirection.South, col, row));
                         else if (row < rowsmax - 1 && Tiles[row + 1, col]?.Passable == true)

@@ -88,5 +88,20 @@ ds.+
 +++d+".ToMemoryStream());
             var map = new Map(30, 30, new List<RoomTemplate> { room1, room2, room3, room4 }, new Random());
         }
+
+        [TestMethod]
+        public void RoomPropertiesTest()
+        {
+            var room = RoomLoader.Load(@"
+++
+++
+
+===
+
+choose_weight = 0.1
+".ToMemoryStream());
+
+            Assert.AreEqual(0.1f, room.ChooseWeight);
+        }
     }
 }
