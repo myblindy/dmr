@@ -60,6 +60,17 @@ namespace dmr.Utilities
         public static T ChooseRandom<T>(this IList<T> source, Random random) =>
             source[random.Next(source.Count)];
 
+        public static T ChooseRandom<T>(this IList<T> source, Func<T, float> itemweight, Random random)
+        {
+            var weightedvalue = random.NextDouble() * source.Sum(itemweight);
+            var weight = 0f;
+            foreach (var item in source)
+                if (weightedvalue < (weight += itemweight(item)))
+                    return item;
+
+            throw new InvalidOperationException();
+        }
+
         public static T ChooseRandom<T>(this IList<T> source, Random random, out int index) =>
             source[index = random.Next(source.Count)];
 

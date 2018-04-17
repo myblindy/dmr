@@ -46,7 +46,7 @@ namespace dmr.Models
                 doors.RemoveAt(chosenindex);
 
                 // possible rooms that match this doorway
-                var matchingrooms = rooms.SelectMany(r => r.Doorways
+                var matchingrooms = bystart[false].SelectMany(r => r.Doorways
                     .Where(d => d.Direction.Opposite() == doorway.Direction)
                     .Select(d => (room: r, door: d))).ToList();
                 if (matchingrooms.Count == 0)
@@ -56,7 +56,7 @@ namespace dmr.Models
                 for (int retry = 0; retry < retries; ++retry)
                 {
                     // choose a random matching room and doorway
-                    var (chosenroom, chosendoor) = matchingrooms.ChooseRandom(random);
+                    var (chosenroom, chosendoor) = matchingrooms.ChooseRandom(item => item.room.ChooseWeight, random);
 
                     // and place it at the calculated position
                     if (place(chosenroom,
