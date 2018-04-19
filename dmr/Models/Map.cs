@@ -73,6 +73,8 @@ namespace dmr.Models
                     }
                 }
             }
+
+            // remove doorways that lead to nowhere
         }
 
         public Map(int w, int h) => Tiles = new TileTemplate[h, w];

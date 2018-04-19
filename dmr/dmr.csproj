@@ -49,6 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Loaders\RoomLoader.cs" />
+    <Compile Include="Models\Characters\Character.cs" />
+    <Compile Include="Models\Characters\Stats.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Stats.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\RoomTemplate.cs" />
     <Compile Include="Models\TileTemplate.cs" />
@@ -118,6 +124,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DependentUpon>CorridorsGenerator.txt4</DependentUpon>
     </Content>
+    <Content Include="Models\Characters\Stats.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Stats.cs</LastGenOutput>
+    </Content>
     <Content Include="Utilities\CorridorsGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CorridorsGenerator.cs</LastGenOutput>
@@ -126,8 +136,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utilities\..\Content\Rooms\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

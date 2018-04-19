@@ -17,7 +17,7 @@ namespace dmr.console
                 .Select(path => RoomLoader.Load(path))
                 .ToList();
 
-            const int mapw = 25, maph = 25;
+            const int mapw = 75, maph = 25;
             var map = new Map(mapw, maph, rooms, new Random());
 
             for (var row = 0; row < maph; ++row)
