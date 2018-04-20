@@ -6,7 +6,7 @@
 <#@ output extension=".cs" #>
 
 <#	
-	var damagetypes = new (string name, string configname, bool armor)[] 
+	var damagetypes = new (string name, string configname, bool canresist)[] 
 	{ 
 		("Slashing", "slashing", true), 
 		("Piercing", "piercing", false), 
@@ -44,6 +44,28 @@ namespace dmr.Models.General
 						<#= damagetype.name #>Min = AttackBaseType.Parse(m.Groups[1].Value);
 						<#= damagetype.name #>Max = m.Groups[2].Success ? AttackBaseType.Parse(m.Groups[2].Value)	
 							: <#= damagetype.name #>Min;
+						break;
+				<# } #>
+			}
+		}
+	}
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public struct ResistsTemplate
+	{
+		<# foreach(var damagetype in damagetypes.Where(w => w.canresist)) { #>
+			public AttackBaseType <#= damagetype.name #>;
+		<# } #>
+
+		public void UpdateFromConfiguration(string value)
+		{
+			var m = Regex.Match(value, @"^\s*(\d+)\s+(\w+)\s*$");
+
+			switch(m.Groups[2].Value)
+			{
+				<# foreach(var damagetype in damagetypes.Where(w => w.canresist)) { #>
+					case "<#= damagetype.configname #>":
+						<#= damagetype.name #> = AttackBaseType.Parse(m.Groups[1].Value);
 						break;
 				<# } #>
 			}

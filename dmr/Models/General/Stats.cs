@@ -16,7 +16,7 @@ namespace dmr.Models.General
     public struct Stats
     {
 		// base stats
-        public BaseStatType Strength, Agility, Intellect, Wisdom, WeaponExpertise, Resolve, Armor;
+        public BaseStatType Strength, Agility, Intellect, Wisdom, WeaponExpertise, Resolve;
 
 		// derived stats
 					public DerivedStatType BaseBlockChance;
@@ -62,7 +62,6 @@ namespace dmr.Models.General
 									result.Wisdom += item.Wisdom;
 									result.WeaponExpertise += item.WeaponExpertise;
 									result.Resolve += item.Resolve;
-									result.Armor += item.Armor;
 				
 				// derived stats
 									result.BaseBlockChance += item.BaseBlockChance;
@@ -107,9 +106,6 @@ namespace dmr.Models.General
 						break;
 									case "resolve":
 						Resolve = BaseStatType.Parse(value);
-						break;
-									case "armor":
-						Armor = BaseStatType.Parse(value);
 						break;
 				
 				// derived stats

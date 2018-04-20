@@ -14,7 +14,6 @@
 		("Wisdom", "wisdom"), 
 		("WeaponExpertise", "weapon_expertise"), 
 		("Resolve", "resolve"), 
-		("Armor", "armor"),
 	}; 
 
 	var derivedstats = new (string name, string configname, string derivation)[]

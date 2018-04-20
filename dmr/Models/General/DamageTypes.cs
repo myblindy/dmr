@@ -43,4 +43,26 @@ namespace dmr.Models.General
 							}
 		}
 	}
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public struct ResistsTemplate
+	{
+					public AttackBaseType Slashing;
+					public AttackBaseType Crushing;
+		
+		public void UpdateFromConfiguration(string value)
+		{
+			var m = Regex.Match(value, @"^\s*(\d+)\s+(\w+)\s*$");
+
+			switch(m.Groups[2].Value)
+			{
+									case "slashing":
+						Slashing = AttackBaseType.Parse(m.Groups[1].Value);
+						break;
+									case "crushing":
+						Crushing = AttackBaseType.Parse(m.Groups[1].Value);
+						break;
+							}
+		}
+	}
 }
