@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dmr.Models.General;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace dmr.Models.Characters
 {
     public class Character
     {
-        public List<Stats> StatBuffs = new List<Stats>();
+        public StatsCollection StatBuffs = new StatsCollection();
     }
 }

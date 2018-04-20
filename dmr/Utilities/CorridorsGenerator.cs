@@ -5,6 +5,8 @@
 // Generated helper templates
 // dmr\dmr\Content\Rooms\CorridorsGenerator.txt4
 // Generated items
+// dmr\dmr\Content\Rooms\room_corridor_v_7.txt
+// dmr\dmr\Content\Rooms\room_corridor_h_7.txt
 // dmr\dmr\Content\Rooms\room_corridor_v_6.txt
 // dmr\dmr\Content\Rooms\room_corridor_h_6.txt
 // dmr\dmr\Content\Rooms\room_corridor_v_5.txt

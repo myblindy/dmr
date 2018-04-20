@@ -1,4 +1,5 @@
 ﻿using dmr.Models;
+using dmr.Models.Maps;
 using dmr.Utilities;
 using MoreLinq;
 using System;
@@ -45,7 +46,7 @@ namespace dmr.Loaders
                             case '.': set(TileTemplate.EmptyTile); break;
                             case '+': set(TileTemplate.WallTile); break;
                             case 's': set(TileTemplate.StartTile); break;
-                            case ' ': set(null); break;
+                            case ' ': set(TileTemplate.VoidTile); break;
                             case 'd': set(TileTemplate.DoorTile); break;
                             default: throw new InvalidOperationException();
                         }

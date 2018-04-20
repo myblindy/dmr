@@ -50,14 +50,22 @@
   <ItemGroup>
     <Compile Include="Loaders\RoomLoader.cs" />
     <Compile Include="Models\Characters\Character.cs" />
-    <Compile Include="Models\Characters\Stats.cs">
+    <Compile Include="Models\General\DamageTypes.cs">
+      <DependentUpon>DamageTypes.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Models\General\Stats.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Stats.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Map.cs" />
-    <Compile Include="Models\RoomTemplate.cs" />
-    <Compile Include="Models\TileTemplate.cs" />
+    <Compile Include="Models\General\StatsCollection.cs" />
+    <Compile Include="Loaders\ItemLoader.cs" />
+    <Compile Include="Models\Items\ItemTemplate.cs" />
+    <Compile Include="Models\Maps\Map.cs" />
+    <Compile Include="Models\Maps\RoomTemplate.cs" />
+    <Compile Include="Models\Maps\TileTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Utilities\CorridorsGenerator.cs">
@@ -72,6 +80,7 @@
     <None Include="Utilities\TemplateFileManagerV2.1.ttinclude" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Items\long_sword.txt" />
     <Content Include="Content\Rooms\room_0001.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -104,6 +113,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DependentUpon>CorridorsGenerator.txt4</DependentUpon>
     </Content>
+    <Content Include="Content\Rooms\room_corridor_h_7.txt">
+      <DependentUpon>CorridorsGenerator.txt4</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Rooms\room_corridor_v_2.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DependentUpon>CorridorsGenerator.txt4</DependentUpon>
@@ -124,7 +137,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DependentUpon>CorridorsGenerator.txt4</DependentUpon>
     </Content>
-    <Content Include="Models\Characters\Stats.tt">
+    <Content Include="Content\Rooms\room_corridor_v_7.txt">
+      <DependentUpon>CorridorsGenerator.txt4</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Models\General\DamageTypes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DamageTypes.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\General\Stats.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Stats.cs</LastGenOutput>
     </Content>

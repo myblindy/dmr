@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dmr.Models
+namespace dmr.Models.Maps
 {
     public class Map
     {
@@ -17,7 +17,7 @@ namespace dmr.Models
         {
             Tiles = new TileTemplate[h, w];
 
-            var bystart = rooms.GroupBy(r => r.Tiles.AsEnumerable().Any(tile => tile?.Start == true))
+            var bystart = rooms.GroupBy(r => r.Tiles.AsEnumerable().Any(tile => tile.Start == true))
                 .ToDictionary(ww => ww.Key, ww => (IEnumerable<RoomTemplate>)ww);
 
             var doors = new List<(Doorway doorway, int xoffset, int yoffset)>();

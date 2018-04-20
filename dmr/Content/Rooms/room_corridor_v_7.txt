@@ -5,7 +5,8 @@
 +.+
 +.+
 +.+
++.+
 +d+
 
 ===
-choose_weight = 0.03
+choose_weight = 0.01

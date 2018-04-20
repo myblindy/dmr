@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using dmr.Loaders;
 using dmr.Models;
+using dmr.Models.Maps;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace dmr.tests
@@ -26,8 +27,8 @@ d.....+
             Assert.AreEqual(TileTemplate.WallTile, roomtemplate.Tiles[0, 1]);
             Assert.AreEqual(TileTemplate.DoorTile, roomtemplate.Tiles[0, 2]);
             Assert.AreEqual(TileTemplate.WallTile, roomtemplate.Tiles[0, 3]);
-            Assert.AreEqual(null, roomtemplate.Tiles[0, 4]);
-            Assert.AreEqual(null, roomtemplate.Tiles[0, 5]);
+            Assert.AreEqual(TileTemplate.VoidTile, roomtemplate.Tiles[0, 4]);
+            Assert.AreEqual(TileTemplate.VoidTile, roomtemplate.Tiles[0, 5]);
             Assert.AreEqual(TileTemplate.EmptyTile, roomtemplate.Tiles[3, 3]);
             Assert.AreEqual(TileTemplate.DoorTile, roomtemplate.Tiles[3, 6]);
             Assert.ThrowsException<IndexOutOfRangeException>(() => roomtemplate.Tiles[0, 7]);

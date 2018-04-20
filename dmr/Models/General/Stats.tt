@@ -1,0 +1,106 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+
+<#	
+	var basestats = new (string name, string configname)[] 
+	{ 
+		("Strength", "strength"), 
+		("Agility", "agility"), 
+		("Intellect", "intellect"), 
+		("Wisdom", "wisdom"), 
+		("WeaponExpertise", "weapon_expertise"), 
+		("Resolve", "resolve"), 
+		("Armor", "armor"),
+	}; 
+
+	var derivedstats = new (string name, string configname, string derivation)[]
+	{
+		("BlockChance", "block_chance", ".2f + (Strength / 3f + Agility + Resolve * 2) / 100f"),
+		("BlockValue", "block_value", "1.3f * Strength + Resolve"),
+		("DodgeChance", "dodge_chance", ".02f + (Agility * 3 + Resolve) / 100f"),
+		("CounterChance", "counter_chance", "(Agility / 2f + Resolve) / 100f"),
+		("HitPoints", "hit_points", "3 * Strength + 6 * Resolve"),
+
+		("SpellPower", "spell_power", "2 * Intellect"),
+		("MaxMana","max_mana", "4 * Intellect + 5 * Wisdom"),
+		("ManaRegeneration", "mana_regen", "Wisdom"),
+		("SpellCriticalChance", "spell_crit_chance", "(Intellect * 3 + Wisdom * 4) / 100f"),
+		("SpellCriticalDamageMultiplier", "spell_crit_mult", "1.5f + Intellect / 100f + Wisdom / 20f"),
+
+		("BrutePhysicalPowerMultiplier", "brute_physical_power_mult", "Strength / 20f"),
+		("FinessePhyiscalPowerMultiplier", "finesse_physical_power_mult", "Agility / 20f"),
+		("PhysicalCriticalChance", "physical_crit_chance", "(Agility * 3 + WeaponExpertise * 4) / 100f"),
+		("PhysicalCriticalDamageMultiplier", "physical_crit_mult", "1.5f + Agility / 100f + WeaponExpertise / 20f"),
+		("DodgeReduction", "dodge_reduction", "(Agility / 3f + WeaponExpertise * 2) / 100f"),
+	};
+#>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
+
+using BaseStatType = System.SByte;
+using DerivedStatType = System.Single;
+
+namespace dmr.Models.General
+{
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct Stats
+    {
+		// base stats
+        public BaseStatType <#= string.Join(", ", basestats.Select(w => w.name)) #>;
+
+		// derived stats
+		<# foreach(var stat in derivedstats) { #>
+			public DerivedStatType Base<#= stat.name #>;
+			public DerivedStatType <#= stat.name #> => Base<#= stat.name #> + <#= stat.derivation #>;
+		<# } #>
+
+        public static Stats Aggregate(IEnumerable<Stats> source)
+        {
+            var result = new Stats();
+            foreach(var item in source)
+			{
+				// base stats
+				<# foreach(var stat in basestats) { #>
+					result.<#= stat.name #> += item.<#= stat.name #>;
+				<# } #>
+
+				// derived stats
+				<# foreach(var stat in derivedstats) { #>
+					result.Base<#= stat.name #> += item.Base<#= stat.name #>;
+				<# } #>
+			}
+
+			return result;
+        }
+
+		public void UpdateFromConfigurationPair(string statname, string value)
+		{
+			switch(statname)
+			{
+				// base stats
+				<# foreach(var stat in basestats) { #>
+					case "<#= stat.configname #>":
+						<#= stat.name #> = BaseStatType.Parse(value);
+						break;
+				<# } #>
+
+				// derived stats
+				<# foreach(var stat in derivedstats) { #>
+					case "<#= stat.configname #>":
+						Base<#= stat.name #> = DerivedStatType.Parse(value);
+						break;
+				<# } #>
+				default: throw new InvalidOperationException();
+			}
+		}
+    }
+}

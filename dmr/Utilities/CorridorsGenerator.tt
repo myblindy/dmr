@@ -3,8 +3,12 @@
 <# var manager = TemplateFileManager.Create(this); #>
 
 // lines of length 2-7
-<# for(int len=2;len<7;++len)
+<# 
+const int lenmin = 2, lenmax = 7;
+for(int len = lenmin;len <= lenmax; ++len)
 {
+	var chooseweight = ((double)lenmax - len) / (lenmax - lenmin) * 0.1 + 0.01;
+
 	// horizontal
 	manager.StartNewFile(@"room_corridor_h_"+len+".txt","dmr","Content\\Rooms", new FileProperties{CopyToOutputDirectoryIfNewer=true});
 	WriteLine(new string('+', len+2));
@@ -12,7 +16,7 @@
 	WriteLine(new string('+', len+2));
 	WriteLine("");
 	WriteLine("===");
-	WriteLine("choose_weight = 0.1");
+	WriteLine("choose_weight = " + chooseweight);
 	manager.EndBlock();
 
 	// vertical
@@ -23,7 +27,7 @@
 	WriteLine("+d+");
 	WriteLine("");
 	WriteLine("===");
-	WriteLine("choose_weight = 0.1");
+	WriteLine("choose_weight = " + chooseweight);
 	manager.EndBlock();
 }#>
 

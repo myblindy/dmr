@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dmr.Models
+namespace dmr.Models.Maps
 {
     public enum DoorwayDirection { North, South, East, West }
 
@@ -37,13 +37,13 @@ namespace dmr.Models
                     if (Tiles[row, col] == TileTemplate.DoorTile)
                     {
                         // direction?
-                        if (col > 0 && Tiles[row, col - 1]?.Passable == true)
+                        if (col > 0 && Tiles[row, col - 1].Passable == true)
                             Doorways.Add(new Doorway(DoorwayDirection.East, col, row));
-                        else if (col < colsmax - 1 && Tiles[row, col + 1]?.Passable == true)
+                        else if (col < colsmax - 1 && Tiles[row, col + 1].Passable == true)
                             Doorways.Add(new Doorway(DoorwayDirection.West, col, row));
-                        else if (row > 0 && Tiles[row - 1, col]?.Passable == true)
+                        else if (row > 0 && Tiles[row - 1, col].Passable == true)
                             Doorways.Add(new Doorway(DoorwayDirection.South, col, row));
-                        else if (row < rowsmax - 1 && Tiles[row + 1, col]?.Passable == true)
+                        else if (row < rowsmax - 1 && Tiles[row + 1, col].Passable == true)
                             Doorways.Add(new Doorway(DoorwayDirection.North, col, row));
                         else
                             throw new InvalidOperationException();
@@ -63,7 +63,7 @@ namespace dmr.Models
 
             for (int row = 0; row < rowsmax; ++row)
                 for (int col = 0; col < colsmax; ++col)
-                    if (Tiles[row, col] != null && map.Tiles[row + y, col + x] != null)
+                    if (Tiles[row, col] != TileTemplate.VoidTile && map.Tiles[row + y, col + x] != TileTemplate.VoidTile)
                         return false;
 
             return true;
@@ -79,7 +79,7 @@ namespace dmr.Models
                 for (int col = 0; col < colsmax; ++col)
                 {
                     var tile = Tiles[row, col];
-                    if (tile != null)
+                    if (tile != TileTemplate.VoidTile)
                         map.Tiles[y + row, x + col] = tile;
                 }
         }

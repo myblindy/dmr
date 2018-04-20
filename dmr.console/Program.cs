@@ -1,5 +1,6 @@
 ﻿using dmr.Loaders;
 using dmr.Models;
+using dmr.Models.Maps;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,7 +31,7 @@ namespace dmr.console
                     else if (tile == TileTemplate.WallTile) Console.Write('+');
                     else if (tile == TileTemplate.StartTile) Console.Write('s');
                     else if (tile == TileTemplate.EmptyTile) Console.Write('.');
-                    else if (tile == null) Console.Write(' ');
+                    else if (tile == TileTemplate.VoidTile) Console.Write(' ');
                     else throw new InvalidOperationException();
                 }
                 Console.WriteLine('/');

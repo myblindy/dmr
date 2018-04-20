@@ -7,4 +7,4 @@
 +d+
 
 ===
-choose_weight = 0.1
+choose_weight = 0.05
