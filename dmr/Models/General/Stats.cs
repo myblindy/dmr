@@ -7,8 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-using BaseStatType = System.SByte;
-using DerivedStatType = System.Single;
+using StatType = System.SByte;
 
 namespace dmr.Models.General
 {
@@ -16,39 +15,39 @@ namespace dmr.Models.General
     public struct Stats
     {
 		// base stats
-        public BaseStatType Strength, Agility, Intellect, Wisdom, WeaponExpertise, Resolve;
+        public StatType Strength, Agility, Intellect, Wisdom, WeaponExpertise, Resolve;
 
 		// derived stats
-					public DerivedStatType BaseBlockChance;
-			public DerivedStatType BlockChance => BaseBlockChance + .2f + (Strength / 3f + Agility + Resolve * 2) / 100f;
-					public DerivedStatType BaseBlockValue;
-			public DerivedStatType BlockValue => BaseBlockValue + 1.3f * Strength + Resolve;
-					public DerivedStatType BaseDodgeChance;
-			public DerivedStatType DodgeChance => BaseDodgeChance + .02f + (Agility * 3 + Resolve) / 100f;
-					public DerivedStatType BaseCounterChance;
-			public DerivedStatType CounterChance => BaseCounterChance + (Agility / 2f + Resolve) / 100f;
-					public DerivedStatType BaseHitPoints;
-			public DerivedStatType HitPoints => BaseHitPoints + 3 * Strength + 6 * Resolve;
-					public DerivedStatType BaseSpellPower;
-			public DerivedStatType SpellPower => BaseSpellPower + 2 * Intellect;
-					public DerivedStatType BaseMaxMana;
-			public DerivedStatType MaxMana => BaseMaxMana + 4 * Intellect + 5 * Wisdom;
-					public DerivedStatType BaseManaRegeneration;
-			public DerivedStatType ManaRegeneration => BaseManaRegeneration + Wisdom;
-					public DerivedStatType BaseSpellCriticalChance;
-			public DerivedStatType SpellCriticalChance => BaseSpellCriticalChance + (Intellect * 3 + Wisdom * 4) / 100f;
-					public DerivedStatType BaseSpellCriticalDamageMultiplier;
-			public DerivedStatType SpellCriticalDamageMultiplier => BaseSpellCriticalDamageMultiplier + 1.5f + Intellect / 100f + Wisdom / 20f;
-					public DerivedStatType BaseBrutePhysicalPowerMultiplier;
-			public DerivedStatType BrutePhysicalPowerMultiplier => BaseBrutePhysicalPowerMultiplier + Strength / 20f;
-					public DerivedStatType BaseFinessePhyiscalPowerMultiplier;
-			public DerivedStatType FinessePhyiscalPowerMultiplier => BaseFinessePhyiscalPowerMultiplier + Agility / 20f;
-					public DerivedStatType BasePhysicalCriticalChance;
-			public DerivedStatType PhysicalCriticalChance => BasePhysicalCriticalChance + (Agility * 3 + WeaponExpertise * 4) / 100f;
-					public DerivedStatType BasePhysicalCriticalDamageMultiplier;
-			public DerivedStatType PhysicalCriticalDamageMultiplier => BasePhysicalCriticalDamageMultiplier + 1.5f + Agility / 100f + WeaponExpertise / 20f;
-					public DerivedStatType BaseDodgeReduction;
-			public DerivedStatType DodgeReduction => BaseDodgeReduction + (Agility / 3f + WeaponExpertise * 2) / 100f;
+					public StatType BaseBlockChance;
+			public StatType BlockChance => BaseBlockChance + .2f + (Strength / 3f + Agility + Resolve * 2) / 100f;
+					public StatType BaseBlockValue;
+			public StatType BlockValue => BaseBlockValue + 1.3f * Strength + Resolve;
+					public StatType BaseDodgeChance;
+			public StatType DodgeChance => BaseDodgeChance + .02f + (Agility * 3 + Resolve) / 100f;
+					public StatType BaseCounterChance;
+			public StatType CounterChance => BaseCounterChance + (Agility / 2f + Resolve) / 100f;
+					public StatType BaseHitPoints;
+			public StatType HitPoints => BaseHitPoints + 3 * Strength + 6 * Resolve;
+					public StatType BaseSpellPower;
+			public StatType SpellPower => BaseSpellPower + 2 * Intellect;
+					public StatType BaseMaxMana;
+			public StatType MaxMana => BaseMaxMana + 4 * Intellect + 5 * Wisdom;
+					public StatType BaseManaRegeneration;
+			public StatType ManaRegeneration => BaseManaRegeneration + Wisdom;
+					public StatType BaseSpellCriticalChance;
+			public StatType SpellCriticalChance => BaseSpellCriticalChance + (Intellect * 3 + Wisdom * 4) / 100f;
+					public StatType BaseSpellCriticalDamageMultiplier;
+			public StatType SpellCriticalDamageMultiplier => BaseSpellCriticalDamageMultiplier + 1.5f + Intellect / 100f + Wisdom / 20f;
+					public StatType BaseBrutePhysicalPowerMultiplier;
+			public StatType BrutePhysicalPowerMultiplier => BaseBrutePhysicalPowerMultiplier + Strength / 20f;
+					public StatType BaseFinessePhyiscalPowerMultiplier;
+			public StatType FinessePhyiscalPowerMultiplier => BaseFinessePhyiscalPowerMultiplier + Agility / 20f;
+					public StatType BasePhysicalCriticalChance;
+			public StatType PhysicalCriticalChance => BasePhysicalCriticalChance + (Agility * 3 + WeaponExpertise * 4) / 100f;
+					public StatType BasePhysicalCriticalDamageMultiplier;
+			public StatType PhysicalCriticalDamageMultiplier => BasePhysicalCriticalDamageMultiplier + 1.5f + Agility / 100f + WeaponExpertise / 20f;
+					public StatType BaseDodgeReduction;
+			public StatType DodgeReduction => BaseDodgeReduction + (Agility / 3f + WeaponExpertise * 2) / 100f;
 		
         public static Stats Aggregate(IEnumerable<Stats> source)
         {
@@ -90,69 +89,69 @@ namespace dmr.Models.General
 			{
 				// base stats
 									case "strength":
-						Strength = BaseStatType.Parse(value);
+						Strength = StatType.Parse(value);
 						break;
 									case "agility":
-						Agility = BaseStatType.Parse(value);
+						Agility = StatType.Parse(value);
 						break;
 									case "intellect":
-						Intellect = BaseStatType.Parse(value);
+						Intellect = StatType.Parse(value);
 						break;
 									case "wisdom":
-						Wisdom = BaseStatType.Parse(value);
+						Wisdom = StatType.Parse(value);
 						break;
 									case "weapon_expertise":
-						WeaponExpertise = BaseStatType.Parse(value);
+						WeaponExpertise = StatType.Parse(value);
 						break;
 									case "resolve":
-						Resolve = BaseStatType.Parse(value);
+						Resolve = StatType.Parse(value);
 						break;
 				
 				// derived stats
 									case "block_chance":
-						BaseBlockChance = DerivedStatType.Parse(value);
+						BaseBlockChance = StatType.Parse(value);
 						break;
 									case "block_value":
-						BaseBlockValue = DerivedStatType.Parse(value);
+						BaseBlockValue = StatType.Parse(value);
 						break;
 									case "dodge_chance":
-						BaseDodgeChance = DerivedStatType.Parse(value);
+						BaseDodgeChance = StatType.Parse(value);
 						break;
 									case "counter_chance":
-						BaseCounterChance = DerivedStatType.Parse(value);
+						BaseCounterChance = StatType.Parse(value);
 						break;
 									case "hit_points":
-						BaseHitPoints = DerivedStatType.Parse(value);
+						BaseHitPoints = StatType.Parse(value);
 						break;
 									case "spell_power":
-						BaseSpellPower = DerivedStatType.Parse(value);
+						BaseSpellPower = StatType.Parse(value);
 						break;
 									case "max_mana":
-						BaseMaxMana = DerivedStatType.Parse(value);
+						BaseMaxMana = StatType.Parse(value);
 						break;
 									case "mana_regen":
-						BaseManaRegeneration = DerivedStatType.Parse(value);
+						BaseManaRegeneration = StatType.Parse(value);
 						break;
 									case "spell_crit_chance":
-						BaseSpellCriticalChance = DerivedStatType.Parse(value);
+						BaseSpellCriticalChance = StatType.Parse(value);
 						break;
 									case "spell_crit_mult":
-						BaseSpellCriticalDamageMultiplier = DerivedStatType.Parse(value);
+						BaseSpellCriticalDamageMultiplier = StatType.Parse(value);
 						break;
 									case "brute_physical_power_mult":
-						BaseBrutePhysicalPowerMultiplier = DerivedStatType.Parse(value);
+						BaseBrutePhysicalPowerMultiplier = StatType.Parse(value);
 						break;
 									case "finesse_physical_power_mult":
-						BaseFinessePhyiscalPowerMultiplier = DerivedStatType.Parse(value);
+						BaseFinessePhyiscalPowerMultiplier = StatType.Parse(value);
 						break;
 									case "physical_crit_chance":
-						BasePhysicalCriticalChance = DerivedStatType.Parse(value);
+						BasePhysicalCriticalChance = StatType.Parse(value);
 						break;
 									case "physical_crit_mult":
-						BasePhysicalCriticalDamageMultiplier = DerivedStatType.Parse(value);
+						BasePhysicalCriticalDamageMultiplier = StatType.Parse(value);
 						break;
 									case "dodge_reduction":
-						BaseDodgeReduction = DerivedStatType.Parse(value);
+						BaseDodgeReduction = StatType.Parse(value);
 						break;
 								default: throw new InvalidOperationException();
 			}

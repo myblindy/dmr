@@ -45,8 +45,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-using BaseStatType = System.SByte;
-using DerivedStatType = System.Single;
+using StatType = System.SByte;
 
 namespace dmr.Models.General
 {
@@ -54,12 +53,12 @@ namespace dmr.Models.General
     public struct Stats
     {
 		// base stats
-        public BaseStatType <#= string.Join(", ", basestats.Select(w => w.name)) #>;
+        public StatType <#= string.Join(", ", basestats.Select(w => w.name)) #>;
 
 		// derived stats
 		<# foreach(var stat in derivedstats) { #>
-			public DerivedStatType Base<#= stat.name #>;
-			public DerivedStatType <#= stat.name #> => Base<#= stat.name #> + <#= stat.derivation #>;
+			public StatType Base<#= stat.name #>;
+			public StatType <#= stat.name #> => Base<#= stat.name #> + <#= stat.derivation #>;
 		<# } #>
 
         public static Stats Aggregate(IEnumerable<Stats> source)
@@ -88,14 +87,14 @@ namespace dmr.Models.General
 				// base stats
 				<# foreach(var stat in basestats) { #>
 					case "<#= stat.configname #>":
-						<#= stat.name #> = BaseStatType.Parse(value);
+						<#= stat.name #> = StatType.Parse(value);
 						break;
 				<# } #>
 
 				// derived stats
 				<# foreach(var stat in derivedstats) { #>
 					case "<#= stat.configname #>":
-						Base<#= stat.name #> = DerivedStatType.Parse(value);
+						Base<#= stat.name #> = StatType.Parse(value);
 						break;
 				<# } #>
 				default: throw new InvalidOperationException();
