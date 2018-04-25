@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-using StatType = System.SByte;
+using StatType = System.Int16;
 
 namespace dmr.Models.General
 {
@@ -19,35 +19,187 @@ namespace dmr.Models.General
 
 		// derived stats
 					public StatType BaseBlockChance;
-			public StatType BlockChance => BaseBlockChance + .2f + (Strength / 3f + Agility + Resolve * 2) / 100f;
-					public StatType BaseBlockValue;
-			public StatType BlockValue => BaseBlockValue + 1.3f * Strength + Resolve;
+			public StatType BlockChance
+			{
+				get
+				{
+					var val = BaseBlockChance + Strength + Agility + Resolve;
+					if(val < StatType.MinValue)
+						return StatType.MinValue;
+					else if(val > StatType.MaxValue)
+						return StatType.MaxValue;
+					return (StatType)val;
+				}
+			}
 					public StatType BaseDodgeChance;
-			public StatType DodgeChance => BaseDodgeChance + .02f + (Agility * 3 + Resolve) / 100f;
+			public StatType DodgeChance
+			{
+				get
+				{
+					var val = BaseDodgeChance + 2 + Agility * 3 + Resolve;
+					if(val < StatType.MinValue)
+						return StatType.MinValue;
+					else if(val > StatType.MaxValue)
+						return StatType.MaxValue;
+					return (StatType)val;
+				}
+			}
 					public StatType BaseCounterChance;
-			public StatType CounterChance => BaseCounterChance + (Agility / 2f + Resolve) / 100f;
+			public StatType CounterChance
+			{
+				get
+				{
+					var val = BaseCounterChance + Agility + Resolve;
+					if(val < StatType.MinValue)
+						return StatType.MinValue;
+					else if(val > StatType.MaxValue)
+						return StatType.MaxValue;
+					return (StatType)val;
+				}
+			}
 					public StatType BaseHitPoints;
-			public StatType HitPoints => BaseHitPoints + 3 * Strength + 6 * Resolve;
+			public StatType HitPoints
+			{
+				get
+				{
+					var val = BaseHitPoints + 3 * Strength + 6 * Resolve;
+					if(val < StatType.MinValue)
+						return StatType.MinValue;
+					else if(val > StatType.MaxValue)
+						return StatType.MaxValue;
+					return (StatType)val;
+				}
+			}
 					public StatType BaseSpellPower;
-			public StatType SpellPower => BaseSpellPower + 2 * Intellect;
+			public StatType SpellPower
+			{
+				get
+				{
+					var val = BaseSpellPower + 2 * Intellect;
+					if(val < StatType.MinValue)
+						return StatType.MinValue;
+					else if(val > StatType.MaxValue)
+						return StatType.MaxValue;
+					return (StatType)val;
+				}
+			}
 					public StatType BaseMaxMana;
-			public StatType MaxMana => BaseMaxMana + 4 * Intellect + 5 * Wisdom;
+			public StatType MaxMana
+			{
+				get
+				{
+					var val = BaseMaxMana + 4 * Intellect + 5 * Wisdom;
+					if(val < StatType.MinValue)
+						return StatType.MinValue;
+					else if(val > StatType.MaxValue)
+						return StatType.MaxValue;
+					return (StatType)val;
+				}
+			}
 					public StatType BaseManaRegeneration;
-			public StatType ManaRegeneration => BaseManaRegeneration + Wisdom;
+			public StatType ManaRegeneration
+			{
+				get
+				{
+					var val = BaseManaRegeneration + Wisdom;
+					if(val < StatType.MinValue)
+						return StatType.MinValue;
+					else if(val > StatType.MaxValue)
+						return StatType.MaxValue;
+					return (StatType)val;
+				}
+			}
 					public StatType BaseSpellCriticalChance;
-			public StatType SpellCriticalChance => BaseSpellCriticalChance + (Intellect * 3 + Wisdom * 4) / 100f;
+			public StatType SpellCriticalChance
+			{
+				get
+				{
+					var val = BaseSpellCriticalChance + Intellect * 3 + Wisdom * 4;
+					if(val < StatType.MinValue)
+						return StatType.MinValue;
+					else if(val > StatType.MaxValue)
+						return StatType.MaxValue;
+					return (StatType)val;
+				}
+			}
 					public StatType BaseSpellCriticalDamageMultiplier;
-			public StatType SpellCriticalDamageMultiplier => BaseSpellCriticalDamageMultiplier + 1.5f + Intellect / 100f + Wisdom / 20f;
-					public StatType BaseBrutePhysicalPowerMultiplier;
-			public StatType BrutePhysicalPowerMultiplier => BaseBrutePhysicalPowerMultiplier + Strength / 20f;
-					public StatType BaseFinessePhyiscalPowerMultiplier;
-			public StatType FinessePhyiscalPowerMultiplier => BaseFinessePhyiscalPowerMultiplier + Agility / 20f;
+			public StatType SpellCriticalDamageMultiplier
+			{
+				get
+				{
+					var val = BaseSpellCriticalDamageMultiplier + 150 + Intellect / 3.0 + Wisdom;
+					if(val < StatType.MinValue)
+						return StatType.MinValue;
+					else if(val > StatType.MaxValue)
+						return StatType.MaxValue;
+					return (StatType)val;
+				}
+			}
+					public StatType BaseBrutePhysicalPower;
+			public StatType BrutePhysicalPower
+			{
+				get
+				{
+					var val = BaseBrutePhysicalPower + Strength;
+					if(val < StatType.MinValue)
+						return StatType.MinValue;
+					else if(val > StatType.MaxValue)
+						return StatType.MaxValue;
+					return (StatType)val;
+				}
+			}
+					public StatType BaseFinessePhyiscalPower;
+			public StatType FinessePhyiscalPower
+			{
+				get
+				{
+					var val = BaseFinessePhyiscalPower + Agility;
+					if(val < StatType.MinValue)
+						return StatType.MinValue;
+					else if(val > StatType.MaxValue)
+						return StatType.MaxValue;
+					return (StatType)val;
+				}
+			}
 					public StatType BasePhysicalCriticalChance;
-			public StatType PhysicalCriticalChance => BasePhysicalCriticalChance + (Agility * 3 + WeaponExpertise * 4) / 100f;
+			public StatType PhysicalCriticalChance
+			{
+				get
+				{
+					var val = BasePhysicalCriticalChance + Agility * 3 + WeaponExpertise * 4;
+					if(val < StatType.MinValue)
+						return StatType.MinValue;
+					else if(val > StatType.MaxValue)
+						return StatType.MaxValue;
+					return (StatType)val;
+				}
+			}
 					public StatType BasePhysicalCriticalDamageMultiplier;
-			public StatType PhysicalCriticalDamageMultiplier => BasePhysicalCriticalDamageMultiplier + 1.5f + Agility / 100f + WeaponExpertise / 20f;
+			public StatType PhysicalCriticalDamageMultiplier
+			{
+				get
+				{
+					var val = BasePhysicalCriticalDamageMultiplier + 150 + Agility / 3.0 + WeaponExpertise;
+					if(val < StatType.MinValue)
+						return StatType.MinValue;
+					else if(val > StatType.MaxValue)
+						return StatType.MaxValue;
+					return (StatType)val;
+				}
+			}
 					public StatType BaseDodgeReduction;
-			public StatType DodgeReduction => BaseDodgeReduction + (Agility / 3f + WeaponExpertise * 2) / 100f;
+			public StatType DodgeReduction
+			{
+				get
+				{
+					var val = BaseDodgeReduction + Agility / 3.0 + WeaponExpertise * 2;
+					if(val < StatType.MinValue)
+						return StatType.MinValue;
+					else if(val > StatType.MaxValue)
+						return StatType.MaxValue;
+					return (StatType)val;
+				}
+			}
 		
         public static Stats Aggregate(IEnumerable<Stats> source)
         {
@@ -64,7 +216,6 @@ namespace dmr.Models.General
 				
 				// derived stats
 									result.BaseBlockChance += item.BaseBlockChance;
-									result.BaseBlockValue += item.BaseBlockValue;
 									result.BaseDodgeChance += item.BaseDodgeChance;
 									result.BaseCounterChance += item.BaseCounterChance;
 									result.BaseHitPoints += item.BaseHitPoints;
@@ -73,8 +224,8 @@ namespace dmr.Models.General
 									result.BaseManaRegeneration += item.BaseManaRegeneration;
 									result.BaseSpellCriticalChance += item.BaseSpellCriticalChance;
 									result.BaseSpellCriticalDamageMultiplier += item.BaseSpellCriticalDamageMultiplier;
-									result.BaseBrutePhysicalPowerMultiplier += item.BaseBrutePhysicalPowerMultiplier;
-									result.BaseFinessePhyiscalPowerMultiplier += item.BaseFinessePhyiscalPowerMultiplier;
+									result.BaseBrutePhysicalPower += item.BaseBrutePhysicalPower;
+									result.BaseFinessePhyiscalPower += item.BaseFinessePhyiscalPower;
 									result.BasePhysicalCriticalChance += item.BasePhysicalCriticalChance;
 									result.BasePhysicalCriticalDamageMultiplier += item.BasePhysicalCriticalDamageMultiplier;
 									result.BaseDodgeReduction += item.BaseDodgeReduction;
@@ -111,9 +262,6 @@ namespace dmr.Models.General
 									case "block_chance":
 						BaseBlockChance = StatType.Parse(value);
 						break;
-									case "block_value":
-						BaseBlockValue = StatType.Parse(value);
-						break;
 									case "dodge_chance":
 						BaseDodgeChance = StatType.Parse(value);
 						break;
@@ -139,10 +287,10 @@ namespace dmr.Models.General
 						BaseSpellCriticalDamageMultiplier = StatType.Parse(value);
 						break;
 									case "brute_physical_power_mult":
-						BaseBrutePhysicalPowerMultiplier = StatType.Parse(value);
+						BaseBrutePhysicalPower = StatType.Parse(value);
 						break;
 									case "finesse_physical_power_mult":
-						BaseFinessePhyiscalPowerMultiplier = StatType.Parse(value);
+						BaseFinessePhyiscalPower = StatType.Parse(value);
 						break;
 									case "physical_crit_chance":
 						BasePhysicalCriticalChance = StatType.Parse(value);

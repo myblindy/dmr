@@ -18,23 +18,22 @@
 
 	var derivedstats = new (string name, string configname, string derivation)[]
 	{
-		("BlockChance", "block_chance", ".2f + (Strength / 3f + Agility + Resolve * 2) / 100f"),
-		("BlockValue", "block_value", "1.3f * Strength + Resolve"),
-		("DodgeChance", "dodge_chance", ".02f + (Agility * 3 + Resolve) / 100f"),
-		("CounterChance", "counter_chance", "(Agility / 2f + Resolve) / 100f"),
+		("BlockChance", "block_chance", "Strength + Agility + Resolve"),
+		("DodgeChance", "dodge_chance", "2 + Agility * 3 + Resolve"),
+		("CounterChance", "counter_chance", "Agility + Resolve"),
 		("HitPoints", "hit_points", "3 * Strength + 6 * Resolve"),
 
 		("SpellPower", "spell_power", "2 * Intellect"),
 		("MaxMana","max_mana", "4 * Intellect + 5 * Wisdom"),
 		("ManaRegeneration", "mana_regen", "Wisdom"),
-		("SpellCriticalChance", "spell_crit_chance", "(Intellect * 3 + Wisdom * 4) / 100f"),
-		("SpellCriticalDamageMultiplier", "spell_crit_mult", "1.5f + Intellect / 100f + Wisdom / 20f"),
+		("SpellCriticalChance", "spell_crit_chance", "Intellect * 3 + Wisdom * 4"),
+		("SpellCriticalDamageMultiplier", "spell_crit_mult", "150 + Intellect / 3.0 + Wisdom"),
 
-		("BrutePhysicalPowerMultiplier", "brute_physical_power_mult", "Strength / 20f"),
-		("FinessePhyiscalPowerMultiplier", "finesse_physical_power_mult", "Agility / 20f"),
-		("PhysicalCriticalChance", "physical_crit_chance", "(Agility * 3 + WeaponExpertise * 4) / 100f"),
-		("PhysicalCriticalDamageMultiplier", "physical_crit_mult", "1.5f + Agility / 100f + WeaponExpertise / 20f"),
-		("DodgeReduction", "dodge_reduction", "(Agility / 3f + WeaponExpertise * 2) / 100f"),
+		("BrutePhysicalPower", "brute_physical_power_mult", "Strength"),
+		("FinessePhyiscalPower", "finesse_physical_power_mult", "Agility"),
+		("PhysicalCriticalChance", "physical_crit_chance", "Agility * 3 + WeaponExpertise * 4"),
+		("PhysicalCriticalDamageMultiplier", "physical_crit_mult", "150 + Agility / 3.0 + WeaponExpertise"),
+		("DodgeReduction", "dodge_reduction", "Agility / 3.0 + WeaponExpertise * 2"),
 	};
 #>
 
@@ -45,7 +44,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-using StatType = System.SByte;
+using StatType = System.Int16;
 
 namespace dmr.Models.General
 {
@@ -58,7 +57,18 @@ namespace dmr.Models.General
 		// derived stats
 		<# foreach(var stat in derivedstats) { #>
 			public StatType Base<#= stat.name #>;
-			public StatType <#= stat.name #> => Base<#= stat.name #> + <#= stat.derivation #>;
+			public StatType <#= stat.name #>
+			{
+				get
+				{
+					var val = Base<#= stat.name #> + <#= stat.derivation #>;
+					if(val < StatType.MinValue)
+						return StatType.MinValue;
+					else if(val > StatType.MaxValue)
+						return StatType.MaxValue;
+					return (StatType)val;
+				}
+			}
 		<# } #>
 
         public static Stats Aggregate(IEnumerable<Stats> source)

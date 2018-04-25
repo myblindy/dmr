@@ -11,6 +11,8 @@
 		("Slashing", "slashing", true), 
 		("Piercing", "piercing", false), 
 		("Crushing", "crushing", true), 
+		("Fire", "fire", true), 
+		("Shadow", "shadow", true), 
 	}; 
 #>
 
@@ -22,7 +24,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
-using AttackBaseType = System.Single;
+using BaseType = System.SByte;
 
 namespace dmr.Models.General
 {
@@ -30,22 +32,21 @@ namespace dmr.Models.General
     public struct AttackTemplate
     {
 		<# foreach(var damagetype in damagetypes) { #>
-			public AttackBaseType <#= damagetype.name #>Min, <#= damagetype.name #>Max;
+			public BaseType <#= damagetype.name #>;
 		<# } #>
 
 		public void UpdateFromConfiguration(string value)
 		{
-			var m = Regex.Match(value, @"^\s*(\d+)\s*(?:-\s*(\d+))?\s+(\w+)\s*$");
+			var m = Regex.Match(value, @"^\s*(-?\s*\d+)\s+(\w+)\s*$");
 
-			switch(m.Groups[3].Value)
+			switch(m.Groups[2].Value)
 			{
 				<# foreach(var damagetype in damagetypes) { #>
 					case "<#= damagetype.configname #>":
-						<#= damagetype.name #>Min = AttackBaseType.Parse(m.Groups[1].Value);
-						<#= damagetype.name #>Max = m.Groups[2].Success ? AttackBaseType.Parse(m.Groups[2].Value)	
-							: <#= damagetype.name #>Min;
+						<#= damagetype.name #> = BaseType.Parse(m.Groups[1].Value);
 						break;
 				<# } #>
+				default: throw new InvalidOperationException();
 			}
 		}
 	}
@@ -54,20 +55,21 @@ namespace dmr.Models.General
 	public struct ResistsTemplate
 	{
 		<# foreach(var damagetype in damagetypes.Where(w => w.canresist)) { #>
-			public AttackBaseType <#= damagetype.name #>;
+			public BaseType <#= damagetype.name #>;
 		<# } #>
 
 		public void UpdateFromConfiguration(string value)
 		{
-			var m = Regex.Match(value, @"^\s*(\d+)\s+(\w+)\s*$");
+			var m = Regex.Match(value, @"^\s*(-?\s*\d+)\s+(\w+)\s*$");
 
 			switch(m.Groups[2].Value)
 			{
 				<# foreach(var damagetype in damagetypes.Where(w => w.canresist)) { #>
 					case "<#= damagetype.configname #>":
-						<#= damagetype.name #> = AttackBaseType.Parse(m.Groups[1].Value);
+						<#= damagetype.name #> = BaseType.Parse(m.Groups[1].Value);
 						break;
 				<# } #>
+				default: throw new InvalidOperationException();
 			}
 		}
 	}

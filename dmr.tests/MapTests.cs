@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace dmr.tests
 {
     [TestClass]
-    public class UnitTest1
+    public class MapTests
     {
         [TestMethod]
         public void RoomLoadingTest()

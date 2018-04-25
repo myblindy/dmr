@@ -33,7 +33,7 @@ namespace dmr.Loaders
                         {
                             var eqidx = line.IndexOf('=');
                             var valarr = line.Substring(eqidx + 1).Split('|');
-                            var val = valarr[Math.Max(valarr.Length - 1, rank)];
+                            var val = valarr[Math.Min(valarr.Length - 1, rank - 1)];
                             var keyname = line.Substring(0, eqidx).Trim();
 
                             if (keyname.StartsWith("stats."))
@@ -53,8 +53,33 @@ namespace dmr.Loaders
                                         item.Type = val.Trim();
                                         break;
 
+                                    case "item_slot":
+                                        switch (val.Trim())
+                                        {
+                                            case "one_handed_melee_weapon":
+                                                item.Slot = ItemSlot.OneHandedMeleeWeapon;
+                                                break;
+                                            case "two_handed_melee_weapon":
+                                                item.Slot = ItemSlot.TwoHandedMeleeWeapon;
+                                                break;
+                                            case "helmet":
+                                                item.Slot = ItemSlot.Helmet;
+                                                break;
+                                            default:
+                                                throw new InvalidOperationException();
+                                        }
+                                        break;
+
                                     case "item_level":
                                         item.Level = byte.Parse(val);
+                                        break;
+
+                                    case "attack":
+                                        item.Attack.UpdateFromConfiguration(val);
+                                        break;
+
+                                    case "resists":
+                                        item.Resists.UpdateFromConfiguration(val);
                                         break;
 
                                     default:
