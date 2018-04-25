@@ -58,7 +58,7 @@ stats.counter_chance =	15				| 17			| 20			| 23			| 26
             Assert.IsTrue(items.Select(w => (int)w.itemtemplate.Stats.BaseCounterChance).SequenceEqual(new[] { 15, 17, 20, 23, 26 }));
 
             Assert.IsTrue(items.All(w => w.itemtemplate.Stats.BaseBrutePhysicalPower == 0));
-            Assert.IsTrue(items.All(w => w.itemtemplate.Stats.BaseDodgeReduction == 0));
+            Assert.IsTrue(items.All(w => w.itemtemplate.Stats.BaseMaxMana == 0));
             Assert.IsTrue(items.All(w => w.itemtemplate.Stats.BaseHitPoints == 0));
             Assert.IsTrue(items.All(w => w.itemtemplate.Stats.BaseSpellCriticalDamageMultiplier == 0));
         }
