@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Loaders\RoomLoader.cs" />
     <Compile Include="Models\Characters\Character.cs" />
+    <Compile Include="Models\Characters\Player.cs" />
     <Compile Include="Models\General\DamageTypes.cs">
       <DependentUpon>DamageTypes.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -80,7 +81,9 @@
     <None Include="Utilities\TemplateFileManagerV2.1.ttinclude" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Items\long_sword.txt" />
+    <Content Include="Content\Items\long_sword.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Rooms\room_0001.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

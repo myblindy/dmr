@@ -9,6 +9,6 @@ namespace dmr.Models.Characters
 {
     public class Character
     {
-        public StatsCollection StatBuffs = new StatsCollection();
+        public StatsCollection StatBuffs;
     }
 }

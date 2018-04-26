@@ -12,7 +12,8 @@ namespace dmr.Models.Items
     {
         OneHandedMeleeWeapon,
         TwoHandedMeleeWeapon,
-        Helmet
+        Helmet,
+        MaxItemSlot
     }
 
     [StructLayout(LayoutKind.Sequential)]

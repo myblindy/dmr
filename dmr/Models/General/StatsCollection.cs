@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dmr.Models.Items;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,14 @@ namespace dmr.Models.General
     {
         private List<Stats> StatsList = new List<Stats>();
         private Stats AggregateStats;
+        private bool SlotsAllocated;
+
+        public StatsCollection(bool allocateslots)
+        {
+            if (SlotsAllocated = allocateslots)
+                for (int idx = 0; idx < (int)ItemSlot.MaxItemSlot; ++idx)
+                    StatsList.Add(new Stats());
+        }
 
         private void RefreshAggregateStats() =>
             AggregateStats = Stats.Aggregate(StatsList);
@@ -21,10 +30,20 @@ namespace dmr.Models.General
 
         public Stats this[int index]
         {
-            get => StatsList[index];
+            get => StatsList[SlotsAllocated ? index + (int)ItemSlot.MaxItemSlot : index];
             set
             {
-                StatsList[index] = value;
+                StatsList[SlotsAllocated ? index + (int)ItemSlot.MaxItemSlot : index] = value;
+                RefreshAggregateStats();
+            }
+        }
+
+        public Stats this[ItemSlot slot]
+        {
+            get => StatsList[(int)slot];
+            set
+            {
+                StatsList[(int)slot] = value;
                 RefreshAggregateStats();
             }
         }
@@ -43,9 +62,13 @@ namespace dmr.Models.General
 
         public bool Contains(Stats item) => StatsList.Contains(item);
 
-        public void CopyTo(Stats[] array, int arrayIndex) => StatsList.CopyTo(array, arrayIndex);
+        public void CopyTo(Stats[] array, int arrayIndex) => throw new NotImplementedException();
 
-        public IEnumerator<Stats> GetEnumerator() => StatsList.GetEnumerator();
+        public IEnumerator<Stats> GetEnumerator()
+        {
+            foreach (var item in SlotsAllocated ? StatsList.Skip((int)ItemSlot.MaxItemSlot - 1) : StatsList)
+                yield return item;
+        }
 
         public bool Remove(Stats item)
         {
@@ -56,17 +79,17 @@ namespace dmr.Models.General
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public int IndexOf(Stats item) => StatsList.IndexOf(item);
+        public int IndexOf(Stats item) => StatsList.IndexOf(item) - (SlotsAllocated ? (int)ItemSlot.MaxItemSlot : 0);
 
         public void Insert(int index, Stats item)
         {
-            StatsList.Insert(index, item);
+            StatsList.Insert(index + (SlotsAllocated ? (int)ItemSlot.MaxItemSlot : 0), item);
             RefreshAggregateStats();
         }
 
         public void RemoveAt(int index)
         {
-            StatsList.RemoveAt(index);
+            StatsList.RemoveAt(index + (SlotsAllocated ? (int)ItemSlot.MaxItemSlot : 0));
             RefreshAggregateStats();
         }
     }

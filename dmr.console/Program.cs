@@ -17,6 +17,9 @@ namespace dmr.console
             var rooms = Directory.GetFiles(@"Content\Rooms", "*.txt", SearchOption.AllDirectories)
                 .Select(path => RoomLoader.Load(path))
                 .ToList();
+            var items = Directory.GetFiles(@"Content\Items", "*.txt", SearchOption.AllDirectories)
+                .SelectMany(path => ItemLoader.Load(path).Select(w=>w.itemtemplate))
+                .ToList();
 
             const int mapw = 75, maph = 25;
             var map = new Map(mapw, maph, rooms, new Random());
