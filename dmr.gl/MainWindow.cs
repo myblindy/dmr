@@ -6,6 +6,7 @@ using QuickFont;
 using QuickFont.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,7 +48,7 @@ namespace dmr.gl
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            FontDrawing.Print(MainFont, "meep", Vector3.Zero, QFontAlignment.Justify);
+            FontDrawing.Print(MainFont, "meep", new Vector3(10, 10,0), QFontAlignment.Justify, Color.Red);
             FontDrawing.RefreshBuffers();
             FontDrawing.Draw();
 
