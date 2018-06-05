@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dmr.tests", "dmr.tests\dmr.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dmr.console", "dmr.console\dmr.console.csproj", "{72DF0CEB-B4A9-4F2D-A86D-DC51168CE476}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dmr.gl", "dmr.gl\dmr.gl.csproj", "{E64C67B8-B6C8-4A21-845D-C1E71558DC21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{72DF0CEB-B4A9-4F2D-A86D-DC51168CE476}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72DF0CEB-B4A9-4F2D-A86D-DC51168CE476}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72DF0CEB-B4A9-4F2D-A86D-DC51168CE476}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E64C67B8-B6C8-4A21-845D-C1E71558DC21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E64C67B8-B6C8-4A21-845D-C1E71558DC21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E64C67B8-B6C8-4A21-845D-C1E71558DC21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E64C67B8-B6C8-4A21-845D-C1E71558DC21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
