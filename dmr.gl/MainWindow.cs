@@ -48,7 +48,8 @@ namespace dmr.gl
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            FontDrawing.Print(MainFont, "meep", new Vector3(10, 10,0), QFontAlignment.Justify, Color.Red);
+            FontDrawing.DrawingPrimitives.Clear();
+            FontDrawing.Print(MainFont, $"FPS: {1f / e.Time:0}", new Vector3(0, Height, 0), QFontAlignment.Justify, Color.Red);
             FontDrawing.RefreshBuffers();
             FontDrawing.Draw();
 
