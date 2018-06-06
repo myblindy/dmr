@@ -1,4 +1,6 @@
-﻿using OpenTK;
+﻿using dmr.Loaders;
+using dmr.Models.Maps;
+using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 //using OpenTK.Graphics.ES20;
@@ -7,6 +9,7 @@ using QuickFont.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +23,8 @@ namespace dmr.gl
 
         private QFontDrawing FontDrawing;
         private QFont MainFont;
+
+        private Map Map;
 
         public MainWindow()
             : base(800, 600, GraphicsMode.Default, "dmr", GameWindowFlags.FixedWindow, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
@@ -35,6 +40,18 @@ namespace dmr.gl
 
             FontDrawing = new QFontDrawing();
             MainFont = new QFont("Tahoma", 16, new QFontBuilderConfiguration());
+
+            // load the rooms
+            var rooms = Directory.GetFiles(@"Content\Rooms", "*.txt", SearchOption.AllDirectories)
+                .Select(path => RoomLoader.Load(path))
+                .ToList();
+            var items = Directory.GetFiles(@"Content\Items", "*.txt", SearchOption.AllDirectories)
+                .SelectMany(path => ItemLoader.Load(path).Select(w => w.itemtemplate))
+                .ToList();
+
+            // build the map
+            const int mapw = 75, maph = 25;
+            Map = new Map(mapw, maph, rooms, new Random());
         }
 
         protected override void OnResize(EventArgs e)
