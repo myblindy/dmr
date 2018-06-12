@@ -1,4 +1,5 @@
-﻿using dmr.Loaders;
+﻿using dmr.gl.Renderers;
+using dmr.Loaders;
 using dmr.Models.Maps;
 using OpenTK;
 using OpenTK.Graphics;
@@ -25,11 +26,13 @@ namespace dmr.gl
         private QFont MainFont;
 
         private Map Map;
+        private TerrainRenderer TerrainRenderer;
 
         public MainWindow()
-            : base(800, 600, GraphicsMode.Default, "dmr", GameWindowFlags.FixedWindow, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
+            : base(800, 600, GraphicsMode.Default, "dmr", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
         {
             Title += OriginalTitle = $" (ogl {GL.GetString(StringName.Version)})";
+            VSync = VSyncMode.Off;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -52,6 +55,13 @@ namespace dmr.gl
             // build the map
             const int mapw = 75, maph = 25;
             Map = new Map(mapw, maph, rooms, new Random());
+
+            // and the terrain renderer
+            TerrainRenderer = new TerrainRenderer(Map)
+            {
+                ProjectionMatrix = ProjectionMatrix,
+                ViewMatrix = Matrix4.CreateScale(.05f)
+            };
         }
 
         protected override void OnResize(EventArgs e)
@@ -59,14 +69,40 @@ namespace dmr.gl
             GL.Viewport(0, 0, Width, Height);
             FontDrawing.ProjectionMatrix = ProjectionMatrix =
                 Matrix4.CreateOrthographicOffCenter(ClientRectangle.X, ClientRectangle.Width, ClientRectangle.Y, ClientRectangle.Height, -1.0f, 1.0f);
+
+            // I want (0,1) ranges for width and height for a perfect square, deformed by the aspect ratio
+            var ratio = (float)Width / Height;
+            TerrainRenderer.ProjectionMatrix = ratio > 1
+                ? Matrix4.CreateOrthographicOffCenter(0, ratio, 0, 1, -1, 1)
+                : Matrix4.CreateOrthographicOffCenter(0, 1, 0, 1 / ratio, -1, 1);
         }
+
+        int LastFrameCounter, CurrentFrameCounter;
+        DateTime LastFrameCounterUpdate;
+        readonly static TimeSpan FrameCounterPeriod = TimeSpan.FromSeconds(1);
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
+            // fps
+            var now = DateTime.Now;
+            if (now - FrameCounterPeriod >= LastFrameCounterUpdate)
+            {
+                LastFrameCounterUpdate = now;
+                LastFrameCounter = CurrentFrameCounter;
+                CurrentFrameCounter = 0;
+            }
+            ++CurrentFrameCounter;
+
+            // clear the screen
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
+            // render the terrain
+            TerrainRenderer.Render();
+
+            // render the fps
             FontDrawing.DrawingPrimitives.Clear();
-            FontDrawing.Print(MainFont, $"FPS: {1f / e.Time:0}", new Vector3(0, Height, 0), QFontAlignment.Justify, Color.Red);
+            FontDrawing.Print(MainFont, $"FPS: {LastFrameCounter / FrameCounterPeriod.TotalSeconds:0}",
+                new Vector3(0, Height, 0), QFontAlignment.Justify, Color.Black);
             FontDrawing.RefreshBuffers();
             FontDrawing.Draw();
 
