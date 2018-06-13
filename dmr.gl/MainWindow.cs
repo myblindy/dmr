@@ -9,6 +9,7 @@ using QuickFont;
 using QuickFont.Configuration;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -19,7 +20,6 @@ namespace dmr.gl
 {
     public sealed class MainWindow : GameWindow
     {
-        private readonly string OriginalTitle;
         private Matrix4 ProjectionMatrix;
 
         private QFontDrawing FontDrawing;
@@ -29,9 +29,10 @@ namespace dmr.gl
         private TerrainRenderer TerrainRenderer;
 
         public MainWindow()
-            : base(800, 600, GraphicsMode.Default, "dmr", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, GraphicsContextFlags.ForwardCompatible)
+            : base(800, 600, GraphicsMode.Default, "dmr", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, 
+                  GraphicsContextFlags.ForwardCompatible)
         {
-            Title += OriginalTitle = $" (ogl {GL.GetString(StringName.Version)})";
+            Title += $" (ogl {GL.GetString(StringName.Version)})";
             VSync = VSyncMode.Off;
         }
 
@@ -59,7 +60,6 @@ namespace dmr.gl
             // and the terrain renderer
             TerrainRenderer = new TerrainRenderer(Map)
             {
-                ProjectionMatrix = ProjectionMatrix,
                 ViewMatrix = Matrix4.CreateScale(.05f)
             };
         }
@@ -67,12 +67,12 @@ namespace dmr.gl
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(0, 0, Width, Height);
-            FontDrawing.ProjectionMatrix = ProjectionMatrix =
+            FontDrawing.ProjectionMatrix =
                 Matrix4.CreateOrthographicOffCenter(ClientRectangle.X, ClientRectangle.Width, ClientRectangle.Y, ClientRectangle.Height, -1.0f, 1.0f);
 
             // I want (0,1) ranges for width and height for a perfect square, deformed by the aspect ratio
             var ratio = (float)Width / Height;
-            TerrainRenderer.ProjectionMatrix = ratio > 1
+            TerrainRenderer.ProjectionMatrix = ProjectionMatrix = ratio > 1
                 ? Matrix4.CreateOrthographicOffCenter(0, ratio, 0, 1, -1, 1)
                 : Matrix4.CreateOrthographicOffCenter(0, 1, 0, 1 / ratio, -1, 1);
         }
@@ -102,11 +102,20 @@ namespace dmr.gl
             // render the fps
             FontDrawing.DrawingPrimitives.Clear();
             FontDrawing.Print(MainFont, $"FPS: {LastFrameCounter / FrameCounterPeriod.TotalSeconds:0}",
-                new Vector3(0, Height, 0), QFontAlignment.Justify, Color.Black);
+                new Vector3(0, Height, 0), QFontAlignment.Left, Color.Black);
             FontDrawing.RefreshBuffers();
             FontDrawing.Draw();
 
             SwapBuffers();
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+
+            TerrainRenderer.Dispose();
+            FontDrawing.Dispose();
+            MainFont.Dispose();
         }
     }
 }

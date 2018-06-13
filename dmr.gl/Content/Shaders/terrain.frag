@@ -1,12 +1,12 @@
-﻿#version 150
+﻿#version 450 core
 
 precision highp float;
 
-in  vec3 ex_Color;
-out vec4 gl_FragColor;
+uniform sampler2D tex;
+in vec2 uv_;
+out vec4 result;
 
 void main(void) 
 {
-    // Pass through our original color with full opacity.
-    gl_FragColor = vec4(ex_Color, 1.0);
+	result = texture(tex, uv_);
 }
