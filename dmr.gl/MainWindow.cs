@@ -29,7 +29,7 @@ namespace dmr.gl
         private TerrainRenderer TerrainRenderer;
 
         public MainWindow()
-            : base(800, 600, GraphicsMode.Default, "dmr", GameWindowFlags.Default, DisplayDevice.Default, 4, 0, 
+            : base(800, 600, GraphicsMode.Default, "dmr", GameWindowFlags.Default, DisplayDevice.Default, 4, 0,
                   GraphicsContextFlags.ForwardCompatible)
         {
             Title += $" (ogl {GL.GetString(StringName.Version)})";
@@ -60,7 +60,7 @@ namespace dmr.gl
             // and the terrain renderer
             TerrainRenderer = new TerrainRenderer(Map)
             {
-                ViewMatrix = Matrix4.CreateScale(.05f)
+                ViewMatrix = Matrix4.CreateTranslation(2, 2, 0)* Matrix4.CreateScale(.1f) 
             };
         }
 

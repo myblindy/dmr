@@ -98,6 +98,8 @@ namespace dmr.gl.Renderers
             // trigger the matrix update
             ViewMatrix = projectionMatrix = Matrix4.Identity;
 
+            w = 4; h = 4;
+
             // 2 triangles per cell, w * h cells
             VBOTriangleCount = (uint)(2 * w * h);
 
@@ -199,7 +201,7 @@ namespace dmr.gl.Renderers
 
             GL.BindVertexArray(VAO);
 
-            GL.DrawElements(PrimitiveType.Triangles, (int)VBOTriangleCount, DrawElementsType.UnsignedShort, 0);
+            GL.DrawElements(PrimitiveType.Triangles, (int)VBOTriangleCount * 3, DrawElementsType.UnsignedShort, 0);
         }
 
         #region IDisposable Support
